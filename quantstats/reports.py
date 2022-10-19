@@ -515,7 +515,7 @@ def metrics(returns, benchmark=None, rf=0., display=True,
     comp_func = _stats.comp if compounded else _np.sum
 
     today = df.index[-1]  # _dt.today()
-    metrics['MTD %'] = comp_func(df[df.index >= _dt(today.year, today.month, 1)]) * pct
+    metrics['MTD %'] = comp_func(df[df.index >= today]) * pct
 
     d = today - relativedelta(months=3)
     metrics['3M %'] = comp_func(df[df.index >= d]) * pct
@@ -523,7 +523,7 @@ def metrics(returns, benchmark=None, rf=0., display=True,
     d = today - relativedelta(months=6)
     metrics['6M %'] = comp_func(df[df.index >= d]) * pct
 
-    metrics['YTD %'] = comp_func(df[df.index >= _dt(today.year, 1, 1)]) * pct
+    metrics['YTD %'] = comp_func(df[df.index >= _dt(today.year, 1, 1,tzinfo = df.index.tz)]) * pct
 
     d = today - relativedelta(years=1)
     metrics['1Y %'] = comp_func(df[df.index >= d]) * pct
